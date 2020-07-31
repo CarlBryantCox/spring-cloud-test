@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>登录页</title>
+</head>
+
+<body>
+<form action="" method="post" id="loginForm">
+	<div>用户名：<input type="text" name="username" /></div>
+	<div>密 码：<input type="password" name="password" /></div>
+	<input type="button" value="登  录" onclick="login()" />
+</form>
+</body>
+
+<script>
+	function login() {
+		console.log("我被执行了");
+		var url = location.search;
+		var queryStr = '';
+		if(url.indexOf("?") != -1) {
+			var queryStrs = url.split("?");
+			queryStr = '?' + queryStrs[1];
+		}
+		document.getElementById("loginForm").action = "http://localhost:3326/login" + queryStr;
+		document.getElementById("loginForm").submit();
+	}
+</script>
+
+</html>

@@ -35,7 +35,7 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
              * oauth2，第三方登录跳转自定义登录页面，要把queryString带上
              * 自定义的登录页面，在发起登录请求时，也要带上queryString，以便在登录成功后，进行重定向
              */
-            String url = "http://localhost:3323/loginPage";
+            String url = "http://localhost:3326/page/login";
             String queryString = request.getQueryString();
             if(!StringUtils.isEmpty(queryString)){
                 url=url+"?"+queryString;

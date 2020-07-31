@@ -33,9 +33,9 @@ public class MyLoginSuccessHandler implements AuthenticationSuccessHandler{
              * oauth2的登录请求，成功后，进行重定向
              */
             String queryString = request.getQueryString();
-            String url = "http://localhost:3323/hello";
+            String url = "http://localhost:3326/hello";
             if(!StringUtils.isEmpty(queryString)){
-                url="http://localhost:3323/oauth/authorize?"+queryString;
+                url="http://localhost:3326/oauth/authorize?"+queryString;
             }
             System.out.println("url="+url);
             response.sendRedirect(url);

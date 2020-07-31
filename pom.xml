@@ -17,6 +17,8 @@
         <module>common</module>
         <module>config-test</module>
         <module>config-server</module>
+        <module>auth-server</module>
+        <module>independent-project</module>
     </modules>
 
     <parent>

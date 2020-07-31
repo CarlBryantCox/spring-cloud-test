@@ -108,7 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/token").permitAll()
                 .antMatchers("/error").permitAll()
-                .antMatchers("/loginPage").permitAll()
+                .antMatchers("/page/login").permitAll()
                 //feign调用放行
                 .antMatchers("/api/feign/**").permitAll()
                 .antMatchers("/druid/**").permitAll()

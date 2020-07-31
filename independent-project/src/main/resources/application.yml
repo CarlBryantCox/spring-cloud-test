@@ -1,0 +1,48 @@
+server:
+  port: 3333
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          chw-auth:
+            client-id: client-for-server
+            client-secret: client-for-server
+            client-name: CarlBryant
+            provider: chw-auth
+            authorization-grant-type: authorization_code
+            client-authentication-method: basic
+            scope: profile,email,phone
+            redirect-uri-template: "http://localhost:3333/login/oauth2/code/chw-auth"
+        provider:
+          chw-auth:
+            authorization-uri: http://localhost:3326/oauth/authorize
+            token-uri: http://localhost:3326/oauth/token
+            user-info-uri: http://localhost:3326/me
+            user-name-attribute: nickName
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_security?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  path: log/
+  level:
+    com.chw.test.mapper: debug
+    org.mybatis: debug
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+code:
+  generator-author: CarlBryant
+  generator-output-path: /src/main/java
+  generator-package-name: com.chw.test
+  generator-mapper-xml-path: /src/main/resources/mapper/
+
+
+
