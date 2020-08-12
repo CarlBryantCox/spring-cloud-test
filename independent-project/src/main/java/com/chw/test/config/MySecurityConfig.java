@@ -29,7 +29,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(loginPath).permitAll()
                 .antMatchers("/failure").permitAll()
-                .antMatchers("/test").permitAll()
+                .antMatchers("/test/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().formLogin().loginPage(loginPath).failureForwardUrl("/failure")

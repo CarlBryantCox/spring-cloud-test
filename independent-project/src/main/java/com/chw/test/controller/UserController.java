@@ -1,10 +1,13 @@
 package com.chw.test.controller;
 
 
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -22,6 +25,17 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+
+    @Autowired
+    private KafkaProducer<String,String> kafkaProducer;
+
+    @GetMapping("/test/sendMsg")
+    public String sendMsg(@RequestParam("msg") String msg){
+        kafkaProducer.send(new ProducerRecord<>("lyn","key",msg));
+        return "Hello World";
+    }
+
 
     @RequestMapping("/hello")
     public String hello(Principal principal){
