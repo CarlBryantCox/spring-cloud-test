@@ -107,6 +107,11 @@
             <artifactId>kafka-clients</artifactId>
             <version>0.11.0.3</version>
         </dependency>
+        <!--运维监控-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

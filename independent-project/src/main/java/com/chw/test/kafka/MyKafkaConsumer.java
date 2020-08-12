@@ -27,7 +27,7 @@ public class MyKafkaConsumer extends Thread{
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
         consumer.subscribe(Collections.singletonList(topicName));
-        log.info("---------Kafka线程启动---------");
+        log.info("---------Kafka消费者启动---------");
         try {
             while (run) {
                 ConsumerRecords<String,String> records = consumer.poll(1000);
@@ -35,11 +35,12 @@ public class MyKafkaConsumer extends Thread{
                     System.out.println("分区："+record.partition()+" offset:"+record.offset()+"key:"+record.key()+"value:"+record.value());
                 }
             }
-            log.info("---------Kafka线程销毁---------");
+            log.info("---------Kafka消费者即将销毁---------");
         } catch (Exception e) {
             log.error(e.toString());
         } finally {
             consumer.close();
+            log.info("---------Kafka消费者已经销毁---------");
         }
     }
 
