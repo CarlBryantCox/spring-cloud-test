@@ -18,20 +18,19 @@ public class ProjectStartApplication {
         SpringApplication.run(ProjectStartApplication.class,args);
     }
 
-
-    @Bean
-    public KafkaProducer<String,String> kafkaProducer(){
-        Properties props = new Properties();
-        props.put("bootstrap.servers", "zookeeper_test:9092,kafka_test:9092,nginx_test:9092");
-        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("acks","1");
-        props.put("retries",3);
-        props.put("batch.size",323840);
-        props.put("linger.ms",10);
-        props.put("buffer.memory",33554432);
-        props.put("max.block.ms",3000);
-        return new KafkaProducer<>(props);
-    }
+//    @Bean
+//    public KafkaProducer<String,String> kafkaProducer(){
+//        Properties props = new Properties();
+//        props.put("bootstrap.servers", "zookeeper_test:9092,kafka_test:9092,nginx_test:9092");
+//        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+//        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+//        props.put("acks","1");
+//        props.put("retries",3);
+//        props.put("batch.size",323840);
+//        props.put("linger.ms",10);
+//        props.put("buffer.memory",33554432);
+//        props.put("max.block.ms",3000);
+//        return new KafkaProducer<>(props);
+//    }
 
 }

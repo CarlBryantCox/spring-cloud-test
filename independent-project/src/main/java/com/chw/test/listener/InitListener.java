@@ -19,18 +19,18 @@ public class InitListener implements ServletContextListener {
 
 	private MyKafkaConsumer myKafkaConsumer;
 
-	@Autowired
-	private KafkaProducer<String,String> kafkaProducer;
+//	@Autowired
+//	private KafkaProducer<String,String> kafkaProducer;
 
 	public void contextInitialized(ServletContextEvent sce) {
-		MyKafkaConsumer myKafkaConsumer = new MyKafkaConsumer();
-		this.myKafkaConsumer=myKafkaConsumer;
-		myKafkaConsumer.start();
+//		MyKafkaConsumer myKafkaConsumer = new MyKafkaConsumer();
+//		this.myKafkaConsumer=myKafkaConsumer;
+//		myKafkaConsumer.start();
 	}
 
 	public void contextDestroyed(ServletContextEvent sce) {
-		myKafkaConsumer.closed();
-		kafkaProducer.close();
-		log.info("---------Kafka生产者已经销毁---------");
+//		myKafkaConsumer.closed();
+//		kafkaProducer.close();
+//		log.info("---------Kafka生产者已经销毁---------");
 	}
 }

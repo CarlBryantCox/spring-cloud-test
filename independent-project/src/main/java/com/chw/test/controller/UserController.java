@@ -27,14 +27,14 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
 
-    @Autowired
-    private KafkaProducer<String,String> kafkaProducer;
-
-    @GetMapping("/test/sendMsg")
-    public String sendMsg(@RequestParam("msg") String msg){
-        kafkaProducer.send(new ProducerRecord<>("lyn","key",msg));
-        return "Hello World";
-    }
+//    @Autowired
+//    private KafkaProducer<String,String> kafkaProducer;
+//
+//    @GetMapping("/test/sendMsg")
+//    public String sendMsg(@RequestParam("msg") String msg){
+//        kafkaProducer.send(new ProducerRecord<>("lyn","key",msg));
+//        return "Hello World";
+//    }
 
 
     @RequestMapping("/hello")

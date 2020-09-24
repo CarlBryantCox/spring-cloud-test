@@ -2,6 +2,7 @@ package com.chw.test.controller;
 
 
 import com.chw.test.feign.TestFeign;
+import com.chw.test.utils.snow.SnowFlake;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class UserController {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
+    @Autowired
+    private SnowFlake snowFlake;
+
     @HystrixCommand(fallbackMethod = "getBackMessage")
     @GetMapping("/testFirst")
     public String testFirst(){
@@ -49,6 +53,12 @@ public class UserController {
         amqpTemplate.convertAndSend("hello",msg);
         return msg;
     }
+
+    @GetMapping("/getId")
+    public String getId(){
+        return String.valueOf(snowFlake.nextId());
+    }
+
 
 
 }
