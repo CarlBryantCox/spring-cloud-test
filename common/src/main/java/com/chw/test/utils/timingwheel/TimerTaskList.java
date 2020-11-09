@@ -12,8 +12,6 @@ public class TimerTaskList implements Delayed {
 
     private static final long defaultExpiration=-1L;
 
-    private int intervalStamp;
-
     private int level;
 
     private AtomicInteger size;
@@ -30,8 +28,7 @@ public class TimerTaskList implements Delayed {
 
     private TimeUnit timeUnit;
 
-    TimerTaskList(int intervalStamp,int level,TimeUnit timeUnit) {
-        this.intervalStamp = intervalStamp;
+    TimerTaskList(int level,TimeUnit timeUnit) {
         this.level = level;
         expiration = new AtomicLong(defaultExpiration);
         size = new AtomicInteger(0);
@@ -53,9 +50,7 @@ public class TimerTaskList implements Delayed {
      * 设置过期时间
      */
     void reSetExpiration() {
-        if(size.get()==0){
-            expiration.set(defaultExpiration);
-        }
+        expiration.set(defaultExpiration);
     }
 
     /**
@@ -97,10 +92,6 @@ public class TimerTaskList implements Delayed {
 
     int size(){
         return size.get();
-    }
-
-    int getIntervalStamp() {
-        return intervalStamp;
     }
 
     TimerTask getRoot() {

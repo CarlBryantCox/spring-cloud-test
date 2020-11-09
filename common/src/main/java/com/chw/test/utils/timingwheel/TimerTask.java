@@ -6,9 +6,11 @@ package com.chw.test.utils.timingwheel;
 public class TimerTask{
 
     /**
-     * 延迟时间-秒长度
+     * 延迟时间
      */
     private int delayTime;
+
+    private long delayStamp;
 
     /**
      * 任务
@@ -36,6 +38,7 @@ public class TimerTask{
     private String desc;
 
     public TimerTask(Runnable task,int delayTime) {
+        this.delayStamp=0;
         this.delayTime = delayTime;
         this.task = task;
         this.timerTaskList = null;
@@ -43,7 +46,18 @@ public class TimerTask{
         this.prev = null;
     }
 
+    public TimerTask(Runnable task, long delayStamp, String desc) {
+        this.delayStamp=delayStamp;
+        this.delayTime = 0;
+        this.task = task;
+        this.timerTaskList = null;
+        this.next = null;
+        this.prev = null;
+        this.desc=desc;
+    }
+
     public TimerTask(Runnable task, int delayTime, String desc) {
+        this.delayStamp=0;
         this.delayTime = delayTime;
         this.task = task;
         this.timerTaskList = null;
@@ -60,8 +74,12 @@ public class TimerTask{
         return delayTime;
     }
 
-    void setDelayTime(int delayTime) {
-        this.delayTime = delayTime;
+    public long getDelayStamp() {
+        return delayStamp;
+    }
+
+    public void setDelayStamp(long delayStamp) {
+        this.delayStamp = delayStamp;
     }
 
     @Override

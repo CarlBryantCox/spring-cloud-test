@@ -104,8 +104,8 @@ public class SystemTimer {
                 TimerTask root = timerTaskList.getRoot();
                 TimerTask next = root.next;
                 while (!root.equals(next)) {
-                    if (timerTaskList.getLevel() != 1 && next.getDelayTime() >= timerTaskList.getIntervalStamp()) {
-                        TimerTask timerTask = new TimerTask(next.getTask(), next.getDelayTime() - timerTaskList.getIntervalStamp(), next.toString());
+                    if (timerTaskList.getLevel() != 1) {
+                        TimerTask timerTask = new TimerTask(next.getTask(), next.getDelayStamp(), next.toString());
                         workerThreadPool.execute(()-> this.addTask(timerTask));
                     } else {
                         System.out.println(next+"---开始执行--"+timeUnit.convert(System.currentTimeMillis(),TimeUnit.MILLISECONDS));
