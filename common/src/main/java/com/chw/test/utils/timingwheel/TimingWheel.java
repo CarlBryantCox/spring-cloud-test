@@ -1,6 +1,7 @@
 package com.chw.test.utils.timingwheel;
 
 import java.util.concurrent.DelayQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 时间轮的实现
@@ -39,20 +40,23 @@ public class TimingWheel {
      */
     private DelayQueue<TimerTaskList> delayQueue;
 
-    TimingWheel(int tickTime, int wheelSize, DelayQueue<TimerTaskList> delayQueue) {
-        this(tickTime,wheelSize,delayQueue,1);
+    private TimeUnit timeUnit;
+
+    TimingWheel(int tickTime, int wheelSize, DelayQueue<TimerTaskList> delayQueue,TimeUnit timeUnit) {
+        this(tickTime,wheelSize,delayQueue,1,timeUnit);
     }
 
-    private TimingWheel(int tickTime, int wheelSize, DelayQueue<TimerTaskList> delayQueue, int level) {
+    private TimingWheel(int tickTime, int wheelSize, DelayQueue<TimerTaskList> delayQueue, int level, TimeUnit timeUnit) {
         this.tickTime = tickTime;
         this.wheelSize = wheelSize;
         this.interval = tickTime * wheelSize;
         this.timerTaskLists = new TimerTaskList[wheelSize];
         this.delayQueue = delayQueue;
         this.level = level;
+        this.timeUnit=timeUnit;
         for (int i = 0; i < wheelSize; i++) {
             int intervalStamp = (i+1)* tickTime;
-            timerTaskLists[i] = new TimerTaskList(intervalStamp,level);
+            timerTaskLists[i] = new TimerTaskList(intervalStamp,level,timeUnit);
         }
     }
 
@@ -63,7 +67,7 @@ public class TimingWheel {
         if (overflowWheel == null) {
             synchronized (this) {
                 if (overflowWheel == null) {
-                    overflowWheel = new TimingWheel(interval, wheelSize, delayQueue,level+1);
+                    overflowWheel = new TimingWheel(interval, wheelSize, delayQueue,level+1,timeUnit);
                 }
             }
         }

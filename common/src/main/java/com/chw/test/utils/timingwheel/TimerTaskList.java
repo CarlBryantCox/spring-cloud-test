@@ -28,7 +28,9 @@ public class TimerTaskList implements Delayed {
      */
     private TimerTask root;
 
-    TimerTaskList(int intervalStamp,int level) {
+    private TimeUnit timeUnit;
+
+    TimerTaskList(int intervalStamp,int level,TimeUnit timeUnit) {
         this.intervalStamp = intervalStamp;
         this.level = level;
         expiration = new AtomicLong(defaultExpiration);
@@ -36,13 +38,14 @@ public class TimerTaskList implements Delayed {
         root = new TimerTask( null,-1);
         root.prev = root;
         root.next = root;
+        this.timeUnit = timeUnit;
     }
 
     /**
      * 设置过期时间
      */
     boolean setExpiration(int delayMs) {
-        long expireStamp = System.currentTimeMillis()/1000 + delayMs;
+        long expireStamp = timeUnit.convert(System.currentTimeMillis(),TimeUnit.MILLISECONDS) + delayMs;
         return expiration.compareAndSet(defaultExpiration,expireStamp);
     }
 
@@ -110,7 +113,7 @@ public class TimerTaskList implements Delayed {
 
     @Override
     public long getDelay(TimeUnit unit) {
-        return Math.max(0, unit.convert(expiration.get() - System.currentTimeMillis()/1000, TimeUnit.SECONDS));
+        return Math.max(0, unit.convert(expiration.get() - timeUnit.convert(System.currentTimeMillis(),TimeUnit.MILLISECONDS), timeUnit));
     }
 
     @Override

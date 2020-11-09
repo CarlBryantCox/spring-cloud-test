@@ -20,7 +20,7 @@ public class SystemTimer {
     /**
      * 一个Timer只有一个delayQueue
      */
-    private DelayQueue<TimerTaskList> delayQueue = new DelayQueue<>();
+    private DelayQueue<TimerTaskList> delayQueue;
 
     /**
      * 过期任务执行线程
@@ -29,12 +29,37 @@ public class SystemTimer {
 
     private ExecutorService bossThreadPool;
 
+    private TimeUnit timeUnit;
+
     /**
      * 构造函数
      */
     public SystemTimer() {
-        timeWheel = new TimingWheel(1, 20, delayQueue);
-        workerThreadPool = Executors.newFixedThreadPool(10);
+        this(1,20,TimeUnit.SECONDS);
+    }
+
+    /**
+     * 构造函数
+     */
+    public SystemTimer(TimeUnit timeUnit) {
+        this(1,20,timeUnit);
+    }
+
+    /**
+     * 构造函数
+     */
+    public SystemTimer(int tickTime, int wheelSize, TimeUnit timeUnit) {
+        this(tickTime,wheelSize,10,timeUnit);
+    }
+
+    /**
+     * 构造函数
+     */
+    public SystemTimer(int tickTime, int wheelSize, int workThreadCount,TimeUnit timeUnit) {
+        delayQueue = new DelayQueue<>();
+        this.timeUnit = timeUnit;
+        timeWheel = new TimingWheel(tickTime, wheelSize, delayQueue,timeUnit);
+        workerThreadPool = Executors.newFixedThreadPool(workThreadCount);
         bossThreadPool = Executors.newFixedThreadPool(1);
         bossThreadPool.submit(this::advanceClock);
     }
@@ -83,7 +108,7 @@ public class SystemTimer {
                         TimerTask timerTask = new TimerTask(next.getTask(), next.getDelayTime() - timerTaskList.getIntervalStamp(), next.toString());
                         workerThreadPool.execute(()-> this.addTask(timerTask));
                     } else {
-                        System.out.println(next+"---开始执行--"+System.currentTimeMillis()/1000);
+                        System.out.println(next+"---开始执行--"+timeUnit.convert(System.currentTimeMillis(),TimeUnit.MILLISECONDS));
                         workerThreadPool.execute(next.getTask());
                     }
                     timerTaskList.removeTask(next);
