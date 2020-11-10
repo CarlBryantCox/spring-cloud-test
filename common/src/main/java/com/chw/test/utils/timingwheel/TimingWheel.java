@@ -92,11 +92,12 @@ public class TimingWheel {
         if(delayTime>interval){
             return this.getOverflowWheel().addTask(timerTask);
         }
-        int current = (int) ((now - startStamp) % interval);
+        int current = (int) (((now - startStamp) % interval) / tickTime);
+        //System.out.println("delayTime="+delayTime+"--interval="+interval+"--current="+current);
         int gap = delayTime / tickTime - 1;
         gap = gap<0 ? 0 : gap;
         int index = gap+current;
-        index = index > wheelSize ? index-wheelSize : index;
+        index = index >= wheelSize ? index-wheelSize : index;
         TimerTaskList timerTaskList = timerTaskLists[index];
         if(timerTaskList.addTask(timerTask)){
             if(timerTaskList.setExpiration((gap+1)*tickTime)){
