@@ -22,10 +22,10 @@ spring:
             user-info-uri: http://localhost:3326/me
             user-name-attribute: nickName
   datasource:
-    url: jdbc:mysql://localhost:3306/spring_security?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://10.1.16.234:3306/spring_security?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
 
 logging:
   path: log/
