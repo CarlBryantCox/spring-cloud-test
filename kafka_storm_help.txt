@@ -1,0 +1,32 @@
+zkServer.sh start
+zkServer.sh status
+
+cd /usr/local/kafka/
+bin/kafka-server-start.sh config/server.properties
+bin/kafka-server-start.sh config/server.properties > kafka_start.log 2>&1 &
+bin/kafka-server-stop.sh
+
+bin/kafka-topics.sh --zookeeper zookeeper-test:2181,kafka-test:2181,storm-test:2181 --create --replication-factor 2 --partitions 3 --topic test
+
+bin/kafka-topics.sh --zookeeper zookeeper-test:2181,kafka-test:2181,storm-test:2181 --list
+
+bin/kafka-console-producer.sh --broker-list zookeeper-test:9092,kafka-test:9092,storm-test:9092 --topic test
+
+bin/kafka-console-consumer.sh --zookeeper zookeeper-test:2181,kafka-test:2181,storm-test:2181 --from-beginning --topic test
+
+cd /usr/local/storm
+
+nimbus节点
+bin/storm nimbus >> ./logs/nimbus.out 2>&1 &
+tail -f logs/nimbus.log
+bin/storm ui >> ./logs/ui.out 2>&1 &
+tail -f logs/ui.log
+
+supervisor节点
+bin/storm supervisor >> ./logs/supervisor.out 2>&1 &
+tail -f logs/supervisor.log
+
+任意节点 启动logviewer才可以在stormUI上看到日志
+bin/storm logviewer >> ./logs/logviewer.out 2>&1 &
+
+bin/storm jar /usr/local/storm/examples/word-count-1.0-SNAPSHOT.jar com.chw.test.WordCountTopology test
